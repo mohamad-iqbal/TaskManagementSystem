@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace TaskManagementSystem.Core.Entities
 {
-    public class Project
+    public class Project : BaseEntity
     {
-        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+
+        public string Description { get; set; } = string.Empty;
+        public int OwnerId { get; set; } // FK ke User
+
+        public User Owner { get; set; } = null!;
+        public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
     }
 }

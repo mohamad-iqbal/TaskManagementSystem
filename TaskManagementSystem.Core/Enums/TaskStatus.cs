@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace TaskManagementSystem.Core.Enums
 {
-    internal class TaskStatus
+    public enum TaskStatus //enum adalah tipe data yang digunakan untuk menyimpan sekumpulan konstanta bernama dengan nilai numerik.
     {
+        Pending = 0,
+        InProgress = 1,
+        Completed = 2
     }
 }

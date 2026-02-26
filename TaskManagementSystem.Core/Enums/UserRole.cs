@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace TaskManagementSystem.Core.Enums
 {
-    internal class UserRole
+    public enum UserRole //enum adalah tipe data yang digunakan untuk menyimpan sekumpulan konstanta bernama dengan nilai numerik.
     {
+        User = 0,
+        Admin = 1
     }
 }
