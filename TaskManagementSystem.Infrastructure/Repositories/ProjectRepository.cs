@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagementSystem.Core.Entities;
-using TaskManagementSystem.Core.Interfaces;
+using TaskManagementSystem.Domain.Entities;
+using TaskManagementSystem.Domain.Interfaces;
 using TaskManagementSystem.Infrastructure.Data;
 
 namespace TaskManagementSystem.Infrastructure.Repositories
@@ -43,6 +43,12 @@ namespace TaskManagementSystem.Infrastructure.Repositories
         public Task DeleteAsync(Project project)
         {
             _context.Projects.Remove(project);
+            return Task.CompletedTask;
+        }
+
+        public Task UpdateAsync(Project project)
+        {
+            _context.Projects.Update(project);
             return Task.CompletedTask;
         }
 

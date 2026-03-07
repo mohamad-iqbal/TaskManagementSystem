@@ -24,7 +24,7 @@ namespace TaskManagementSystem.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.Project", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace TaskManagementSystem.Infrastructure.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.TaskItem", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace TaskManagementSystem.Infrastructure.Migrations
                     b.ToTable("TaskItems");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.User", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

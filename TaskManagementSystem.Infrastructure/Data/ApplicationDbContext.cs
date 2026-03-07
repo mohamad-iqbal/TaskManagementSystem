@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagementSystem.Core.Entities;
+using TaskManagementSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

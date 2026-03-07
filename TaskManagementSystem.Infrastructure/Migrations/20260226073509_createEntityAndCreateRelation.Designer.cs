@@ -25,7 +25,7 @@ namespace TaskManagementSystem.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.Project", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace TaskManagementSystem.Infrastructure.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.TaskItem", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,7 +100,7 @@ namespace TaskManagementSystem.Infrastructure.Migrations
                     b.ToTable("TaskItems");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.User", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,9 +135,9 @@ namespace TaskManagementSystem.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.Project", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.Project", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Core.Entities.User", "Owner")
+                    b.HasOne("TaskManagementSystem.Domain.Entities.User", "Owner")
                         .WithMany("Projects")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -146,21 +146,21 @@ namespace TaskManagementSystem.Infrastructure.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.TaskItem", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.TaskItem", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Core.Entities.User", "AssignedToUser")
+                    b.HasOne("TaskManagementSystem.Domain.Entities.User", "AssignedToUser")
                         .WithMany("AssignedTasks")
                         .HasForeignKey("AssignedToUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TaskManagementSystem.Core.Entities.User", "CreatedByUser")
+                    b.HasOne("TaskManagementSystem.Domain.Entities.User", "CreatedByUser")
                         .WithMany("CreatedTasks")
                         .HasForeignKey("CreatedByUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TaskManagementSystem.Core.Entities.Project", "Project")
+                    b.HasOne("TaskManagementSystem.Domain.Entities.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -173,12 +173,12 @@ namespace TaskManagementSystem.Infrastructure.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.Project", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.Project", b =>
                 {
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Core.Entities.User", b =>
+            modelBuilder.Entity("TaskManagementSystem.Domain.Entities.User", b =>
                 {
                     b.Navigation("AssignedTasks");
 

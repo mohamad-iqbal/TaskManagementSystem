@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagementSystem.Core.Entities;
-using TaskManagementSystem.Core.Interfaces;
+using TaskManagementSystem.Domain.Entities;
+using TaskManagementSystem.Domain.Interfaces;
 using TaskManagementSystem.Infrastructure.Data;
 
 namespace TaskManagementSystem.Infrastructure.Repositories
@@ -38,10 +38,21 @@ namespace TaskManagementSystem.Infrastructure.Repositories
             await _context.Users.AddAsync(user);
         }
 
+        public async Task UpdateAsync(User user)
+        {
+            _context.Users.Update(user);
+        }
+
         public Task DeleteAsync(User user)
         {
             _context.Users.Remove(user);
             return Task.CompletedTask; // interface mengharuskan return Task, jadi kembalikan task kosong
+        }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task SaveChangesAsync()

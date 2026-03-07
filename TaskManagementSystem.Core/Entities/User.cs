@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagementSystem.Core.Enums;
+using TaskManagementSystem.Domain.Enums;
 
-namespace TaskManagementSystem.Core.Entities
+namespace TaskManagementSystem.Domain.Entities
 {
     public class User : BaseEntity
     {

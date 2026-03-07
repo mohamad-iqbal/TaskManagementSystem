@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagementSystem.Core.Entities
+namespace TaskManagementSystem.Domain.Entities
 {
     public class Project : BaseEntity
     {

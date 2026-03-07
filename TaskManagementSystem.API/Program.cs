@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using TaskManagementSystem.Core.Interfaces;
+using TaskManagementSystem.Domain.Interfaces;
 using TaskManagementSystem.Infrastructure.Data;
 using TaskManagementSystem.Infrastructure.Repositories;
+using TaskManagementSystem.Application.Interfaces;
+using TaskManagementSystem.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,9 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 // Register IUserRepository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Register ProjectService
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

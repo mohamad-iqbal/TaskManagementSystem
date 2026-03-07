@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskManagementSystem.Core\TaskManagementSystem.Core.csproj" />
+    <ProjectReference Include="..\TaskManagementSystem.Core\TaskManagementSystem.Domain.csproj" />
   </ItemGroup>
 
 </Project>

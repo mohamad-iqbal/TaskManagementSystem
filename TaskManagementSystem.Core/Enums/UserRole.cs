@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagementSystem.Core.Enums
+namespace TaskManagementSystem.Domain.Enums
 {
     public enum UserRole //enum adalah tipe data yang digunakan untuk menyimpan sekumpulan konstanta bernama dengan nilai numerik.
     {
