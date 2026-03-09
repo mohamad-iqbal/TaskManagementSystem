@@ -41,6 +41,17 @@ namespace TaskManagementSystem.Infrastructure.Repositories
             await _context.TaskItems.AddAsync(item);
         }
 
+        public async Task<IEnumerable<TaskItem>> GetTasksByProjectIdAsync(int projectId)
+        {
+            return await _context.TaskItems
+                .Where(t => t.ProjectId == projectId)
+                .ToListAsync();
+        }
+        public async Task UpdateAsync(TaskItem item)
+        {
+            _context.TaskItems.Update(item);
+        }
+
         public Task DeleteAsync(TaskItem item)
         {
             _context.TaskItems.Remove(item);

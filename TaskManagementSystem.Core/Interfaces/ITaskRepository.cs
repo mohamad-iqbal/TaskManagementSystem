@@ -12,6 +12,8 @@ namespace TaskManagementSystem.Domain.Interfaces
         Task<TaskItem?> GetByIdAsync(int id);
         Task<IEnumerable<TaskItem>> GetAllAsync();
         Task AddAsync(TaskItem item);
+        Task<IEnumerable<TaskItem>> GetTasksByProjectIdAsync(int projectId);
+        Task UpdateAsync(TaskItem item);
         Task DeleteAsync(TaskItem item);
         Task SaveChangesAsync();
 
