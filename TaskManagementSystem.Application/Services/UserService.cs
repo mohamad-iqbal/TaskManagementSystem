@@ -49,7 +49,7 @@ namespace TaskManagementSystem.Application.Services
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<User>> GetAllUserAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _userRepository.GetAllAsync();
         }

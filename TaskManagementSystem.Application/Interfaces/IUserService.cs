@@ -12,7 +12,7 @@ namespace TaskManagementSystem.Application.Interfaces
     {
         Task<User> CreateUserAsync(CreateUserDto dto);
         Task<User?> GetUserByIdAsync(int id);
-        Task<IEnumerable<User>> GetAllUserAsync();
+        Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User?> UpdateUserAsync(int id, UpdateUserDto dto);
         Task ChangePasswordAsync(
             int userId,
