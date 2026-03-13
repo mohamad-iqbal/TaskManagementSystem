@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementSystem.Application.Dtos;
 using TaskManagementSystem.Application.Interfaces;
 using TaskManagementSystem.Domain.Entities;
 using TaskManagementSystem.Domain.Interfaces;
@@ -18,7 +19,7 @@ namespace TaskManagementSystem.Application.Services
             _projectRepository = projectRepository;
         }
 
-        public async Task<Project> CreateProjectAsync(string name, int ownerId)
+        public async Task<ProjectResponseDto> CreateProjectAsync(string name, int ownerId)
         {
             var project = new Project()
             {
@@ -28,20 +29,49 @@ namespace TaskManagementSystem.Application.Services
 
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();
-            return project;
+
+            var savedProject = await _projectRepository.GetByIdAsync(project.Id);
+
+            return new ProjectResponseDto
+            {
+                Id = savedProject.Id,
+                Name = savedProject.Name,
+                Description = savedProject.Description,
+                OwnerName = savedProject.Owner.FullName,
+                CreatedAt = savedProject.CreatedAt
+            };
         }
 
-        public async Task<Project?> GetProjectByIdAsync(int id)
+        public async Task<ProjectResponseDto?> GetProjectByIdAsync(int id)
         {
-            return await _projectRepository.GetByIdAsync(id);
+            var project = await _projectRepository.GetByIdAsync(id);
+            if (project == null)
+                return null;
+
+            return new ProjectResponseDto
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description,
+                OwnerName = project.Owner.FullName,
+                CreatedAt = project.CreatedAt
+            };
         }
 
-        public async Task<IEnumerable<Project>> GetAllProjectAsync()
+        public async Task<IEnumerable<ProjectResponseDto>> GetAllProjectAsync()
         {
-            return await _projectRepository.GetAllAsync();
+            var project = await _projectRepository.GetAllAsync();
+            return project.Select(p => new ProjectResponseDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                OwnerName = p.Owner.FullName,
+                CreatedAt = p.CreatedAt
+            });
         }
 
-        public async Task<Project?> UpdateProjectAsync(int id, string newName, string newDescription)
+        public async Task<ProjectResponseDto?> UpdateProjectAsync(int id, string newName, string newDescription)
         {
             // Ambil project dari database
             var project = await _projectRepository.GetByIdAsync(id);
@@ -59,7 +89,14 @@ namespace TaskManagementSystem.Application.Services
             await _projectRepository.SaveChangesAsync();
 
             // Kembalikan project
-            return project;
+            return new ProjectResponseDto
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description,
+                OwnerName = project.Owner.FullName,
+                CreatedAt = project.CreatedAt
+            };
         }
 
         public async Task<bool> DeleteProjectAsync(int id)

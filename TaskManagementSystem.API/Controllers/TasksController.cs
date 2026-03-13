@@ -36,7 +36,14 @@ namespace TaskManagementSystem.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllTask()
         {
-            var task = await _taskService.GetAllTaskAsync();
+            var task = await _taskService.GetAllTasksAsync();
+            return Ok(task);
+        }
+
+        [HttpGet("project/{projectId}")]
+        public async Task<IActionResult> GetTaskByGetTasksByProjectIdAsync(int projectId)
+        {
+            var task = await _taskService.GetTasksByProjectIdAsync(projectId);
             return Ok(task);
         }
 

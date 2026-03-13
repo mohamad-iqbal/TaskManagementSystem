@@ -12,17 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register IProjectRepository
+// Register Repository
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-
-// Register ITaskRepository
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
-
-// Register IUserRepository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// Register ProjectService
+// Register Service
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

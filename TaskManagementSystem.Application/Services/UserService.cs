@@ -19,7 +19,7 @@ namespace TaskManagementSystem.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<User> CreateUserAsync(CreateUserDto dto)
+        public async Task<UserResponseDto> CreateUserAsync(CreateUserDto dto)
         {
             // Existing Email Check
             var existingUser = await _userRepository.GetByEmailAsync(dto.Email);
@@ -35,26 +35,56 @@ namespace TaskManagementSystem.Application.Services
                 FullName = dto.FullName,
                 JobTitle = dto.JobTitle,
                 Email = dto.Email,
-                PasswordHash = dto.Password,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Role = dto.Role,
             };
 
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
-            return user;
+            
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                JobTitle = user.JobTitle,
+                Email= user.Email,
+                Role = user.Role,
+                CreatedAt = user.CreatedAt
+            };
         }
 
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<UserResponseDto?> GetUserByIdAsync(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+                return null;
+
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                JobTitle = user.JobTitle,
+                Email = user.Email,
+                Role = user.Role,
+                CreatedAt = user.CreatedAt
+            };
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserResponseDto>> GetAllUsersAsync()
         {
-            return await _userRepository.GetAllAsync();
+            var user = await _userRepository.GetAllAsync();
+            return user.Select(u =>  new UserResponseDto
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                JobTitle = u.JobTitle,
+                Email = u.Email,
+                Role = u.Role,
+                CreatedAt = u.CreatedAt
+            });
         }
 
-        public async Task<User?> UpdateUserAsync(int id, UpdateUserDto dto)
+        public async Task<UserResponseDto?> UpdateUserAsync(int id, UpdateUserDto dto)
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
@@ -64,8 +94,17 @@ namespace TaskManagementSystem.Application.Services
             user.JobTitle = dto.JobTitle;
             user.Role = dto.Role;
 
+            await _userRepository.UpdateAsync(user);
             await _userRepository.SaveChangesAsync();
-            return user;
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                JobTitle = user.JobTitle,
+                Email = user.Email,
+                Role = user.Role,
+                CreatedAt = user.CreatedAt
+            };
         }
 
         public async Task<bool> DeleteUserAsync(int id)

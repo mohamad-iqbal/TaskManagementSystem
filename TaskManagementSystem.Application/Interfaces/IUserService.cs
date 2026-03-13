@@ -10,10 +10,10 @@ namespace TaskManagementSystem.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<User> CreateUserAsync(CreateUserDto dto);
-        Task<User?> GetUserByIdAsync(int id);
-        Task<IEnumerable<User>> GetAllUsersAsync();
-        Task<User?> UpdateUserAsync(int id, UpdateUserDto dto);
+        Task<UserResponseDto> CreateUserAsync(CreateUserDto dto);
+        Task<UserResponseDto?> GetUserByIdAsync(int id);
+        Task<IEnumerable<UserResponseDto>> GetAllUsersAsync();
+        Task<UserResponseDto?> UpdateUserAsync(int id, UpdateUserDto dto);
         Task ChangePasswordAsync(
             int userId,
             string currentPassword,

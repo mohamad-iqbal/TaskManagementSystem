@@ -18,7 +18,7 @@ namespace TaskManagementSystem.Application.Services
             _taskRepository = taskRepository;
         }
 
-        public async Task<TaskItem> CreateTaskAsync(CreateTaskDto dto)
+        public async Task<TaskResponseDto> CreateTaskAsync(CreateTaskDto dto)
         {
             var task = new TaskItem()
             {
@@ -29,45 +29,93 @@ namespace TaskManagementSystem.Application.Services
                 CreatedByUserId = dto.CreatedByUserId,
                 AssignedToUserId = dto.AssignedToUserId,
                 DueDate = dto.DueDate
-            };
+            };            
 
             await _taskRepository.AddAsync(task);
             await _taskRepository.SaveChangesAsync();
-            return task;
+
+            return new TaskResponseDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                Status = task.Status,
+                ProjectName = task.Project.Name,
+                AssignedTo = task.AssignedToUser.FullName,
+                DueDate = task.DueDate
+            };
         }
 
-        public async Task<TaskItem?> GetTaskByIdAsync(int id)
-        {
-            return await _taskRepository.GetByIdAsync(id);
-        }
-
-        public async Task<IEnumerable<TaskItem>> GetAllTaskAsync()
-        {
-            return await _taskRepository.GetAllAsync();
-        }
-
-        public async Task<IEnumerable<TaskItem>> GetTasksByProjectIdAsync(int projectId)
-        {
-            return await _taskRepository.GetTasksByProjectIdAsync(projectId);
-        }
-
-        public async Task<TaskItem?> UpdateTaskAsync(int id, UpdateTaskDto dto)
+        public async Task<TaskResponseDto?> GetTaskByIdAsync(int id)
         {
             var task = await _taskRepository.GetByIdAsync(id);
-            if (task == null)
-            {
+            if (task == null)            
                 return null;
-            }
 
-            task.Title = dto.Title;
-            task.Description = dto.Description;
-            task.Status = dto.Status;
-            task.AssignedToUserId = dto.AssignedToUserId;
-            task.DueDate = dto.DueDate;
+                return new TaskResponseDto
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    Status= task.Status,
+                    ProjectName = task.Project.Name,
+                    AssignedTo = task.AssignedToUser.FullName,
+                    DueDate = task.DueDate
+                };                                                  
 
-            await _taskRepository.UpdateAsync(task);
-            await _taskRepository.SaveChangesAsync();
-            return task;
+        }
+
+        public async Task<IEnumerable<TaskResponseDto>> GetAllTasksAsync()
+        {
+            var tasks = await _taskRepository.GetAllAsync();
+
+            return tasks.Select(t => new TaskResponseDto
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Description = t.Description,
+                Status = t.Status,
+                ProjectName = t.Project.Name,
+                AssignedTo = t.AssignedToUser.FullName,
+                DueDate = t.DueDate
+            });
+        }
+
+        public async Task<IEnumerable<TaskResponseDto>> GetTasksByProjectIdAsync(int projectId)
+        {
+            var task = await _taskRepository.GetTasksByProjectIdAsync(projectId);
+
+            return task.Select(t => new TaskResponseDto
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Status = t.Status
+            });
+        }
+
+        public async Task<TaskResponseDto?> UpdateTaskAsync(int id, UpdateTaskDto dto)
+        {
+            var task = await _taskRepository.GetByIdAsync(id);
+            if (task == null)            
+                return null;
+
+                task.Title = dto.Title;
+                task.Description = dto.Description;
+                task.Status = dto.Status;
+                task.AssignedToUserId = dto.AssignedToUserId;
+                task.DueDate = dto.DueDate;
+
+                await _taskRepository.UpdateAsync(task);
+                await _taskRepository.SaveChangesAsync();
+
+                return new TaskResponseDto
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    Status = task.Status,
+                    DueDate = task.DueDate
+                };            
         }
 
         public async Task<bool> DeleteTaskAsync(int id)
